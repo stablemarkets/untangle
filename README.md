@@ -4,7 +4,7 @@
 
 This repository contains example code used in the paper "Untangling Sample and Population Level Estimands in Bayesian Causal Inference":
 
-[](https://arxiv.org/abs/2508.15016)
+[https://arxiv.org/abs/2508.15016](https://arxiv.org/abs/2508.15016)
 
 If using LaTeX, you can cite in the .bib file as:
 
