@@ -81,8 +81,9 @@ generated quantities{
   real SATE;
   
   vector[n] CATE;
-  
-  real PATE;
+
+  real PATE_exact;
+  real PATE_MC;
   real PATE_bb;
   real PATE_ecdf;
   
@@ -104,12 +105,15 @@ generated quantities{
   CATE = (beta01 + beta11 * l ) - ( beta00 + beta10 * l );
   
   // PATE - Monte Carlo simulation from parametric model
-  PATE = 0;
+  PATE_exact = ( (beta01 + beta11 * eta ) - ( beta00 + beta10 * eta ) );
+  
+  // PATE - Monte Carlo simulation from parametric model
+  PATE_MC = 0;
   for (s in 1:S){
     real l_sim = normal_rng(eta, tau);
-    PATE += ( (beta01 + beta11 * l_sim ) - ( beta00 + beta10 * l_sim ) );
+    PATE_MC += ( (beta01 + beta11 * l_sim ) - ( beta00 + beta10 * l_sim ) );
   }
-  PATE = PATE/S;
+  PATE_MC = PATE_MC/S;
   
   // PATE - Bayesian Bootstrap
   PATE_bb = 0;

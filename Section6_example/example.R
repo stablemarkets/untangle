@@ -42,7 +42,7 @@ ITE_draws = extract(stan_res, 'ITEs')$ITEs
 SATE_draws = extract(stan_res, 'SATE')$SATE
 CATE_draws = extract(stan_res, 'CATE')$CATE
 
-PATE_draws = extract(stan_res, 'PATE')$PATE
+PATE_draws = extract(stan_res, 'PATE_exact')$PATE_exact
 PATE_bb_draws = extract(stan_res, 'PATE_bb')$PATE_bb
 PATE_ecdf_draws = extract(stan_res, 'PATE_ecdf')$PATE_ecdf
 
@@ -58,6 +58,7 @@ CATE_upr = apply(CATE_draws,2,quantile, p=.975)
 
 ### plot results
 
+png('comparison_fig.png',width=700, height=400)
 par(mfrow=c(1,2))
 np = 30
 pd = rbind( data.frame(draws=SATE_draws, id='SATE'), 
@@ -82,13 +83,16 @@ segments(CATE_lwr[order(ITE_lwr)][1:np], 1:np + .25,
 legend('topleft', legend = c('ITE', 'CATE'), 
        col=c('black','red'), lty=c(1,1))
 
+dev.off()
 
 
+png('bb_comparison.png',width=800, height=300)
 par(mfrow=c(1,3))
-hist(PATE_draws, xlim=c(-2,13), breaks=100, main='Monte Carlo Simulation',
+hist(PATE_draws, xlim=c(-2,13), breaks=20, main='Exact',
      xlab='Posterior Draws')
-hist(PATE_bb_draws, xlim=c(-2,13), breaks=100, main='Bayesian Bootstrap',
+hist(PATE_bb_draws, xlim=c(-2,13), breaks=20, main='Bayesian Bootstrap',
      xlab='Posterior Draws')
-hist(PATE_ecdf_draws, xlim=c(-2,13), breaks=20, main='Empirical Distribution',
+hist(PATE_ecdf_draws, xlim=c(-2,13), breaks=10, main='Empirical Dist. / MATE',
      xlab='Posterior Draws')
+dev.off()
 
